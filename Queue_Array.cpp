@@ -6,10 +6,12 @@ class Queue{
 		int size;
 		int *arr;
 		int front;
+		int rear;
 	public:	
 		Queue(int s){
 			size = s;
-			front = -1;
+			front = 0;
+			rear = 0;
 			arr = new int[size];
 		}
 		
@@ -18,18 +20,18 @@ class Queue{
 		}
 		
 		void push(int x){
-			if(front == size - 1){
+			if(rear == size){
 				cout << "Queue Overflow" << endl;
 			}else{
-				arr[++front] = x;
+				arr[rear++] = x;
 				cout << "The value " << x << " is pushed to queue" << endl;
 				cout << endl;
 			}
 		}
 		
 		void pop(){
-			if(front == -1){
-				cout << "Stack UnderFlow" << endl;
+			if(front == rear){
+				cout << "Queue UnderFlow" << endl;
 				cout << endl;
 			}else{
 				cout << "The element " << arr[front--] << " is removed from the queue" << endl;
@@ -38,7 +40,7 @@ class Queue{
 		}
 		
 		bool isFull(){
-			if(front == size -1){
+			if(rear == size){
 				return true;
 			}else{
 				return false;
@@ -46,7 +48,7 @@ class Queue{
 		}
 		
 		bool isEmpty(){
-			if(front == -1){
+			if(front == rear){
 				return true;
 			}else{
 				return false;
