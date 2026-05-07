@@ -1,36 +1,37 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-#define MAX 10
+vector<int> adj[100];
+bool visited[100];
 
-void DFS(int graph[MAX][MAX], int vertices, int current, bool visited[]) {
-    visited[current] = true;
+// DFS function
+void dfs(int node) {
+    visited[node] = true;
+    cout << node << " ";
 
-    cout << current << " ";
-
-    for (int i = 0; i < vertices; i++) {
-        if (graph[current][i] == 1 && !visited[i]) {
-            DFS(graph, vertices, i, visited);
+    for (int i = 0; i < adj[node].size(); i++) {
+        int next = adj[node][i];
+        if (!visited[next]) {
+            dfs(next);
         }
     }
 }
 
 int main() {
-    int vertices = 5;
+    int n, e;
+    cout << "Enter number of nodes and edges: ";
+    cin >> n >> e;
 
-    int graph[MAX][MAX] = {
-        {0, 1, 1, 0, 0},
-        {1, 0, 1, 1, 0},
-        {1, 1, 0, 0, 1},
-        {0, 1, 0, 0, 1},
-        {0, 0, 1, 1, 0}
-    };
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < e; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u); // remove this line for directed graph
+    }
 
-    bool visited[MAX] = {false};
-
-    cout << "DFS Traversal: ";
-
-    DFS(graph, vertices, 0, visited);
+    dfs(0); // start from node 0
 
     return 0;
 }
