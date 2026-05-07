@@ -1,48 +1,46 @@
 #include <iostream>
+#include <vector>
 #include <queue>
 using namespace std;
 
-#define MAX 10
+vector<int> adj[100];
+bool visited[100];
 
-void BFS(int graph[MAX][MAX], int vertices, int start) {
-    bool visited[MAX] = {false};
-
+// BFS function
+void bfs(int start) {
     queue<int> q;
-
-    visited[start] = true;
     q.push(start);
-
-    cout << "BFS Traversal: ";
+    visited[start] = true;
 
     while (!q.empty()) {
-        int current = q.front();
+        int node = q.front();
         q.pop();
+        cout << node << " ";
 
-        cout << current << " ";
-
-        for (int i = 0; i < vertices; i++) {
-            if (graph[current][i] == 1 && !visited[i]) {
-                visited[i] = true;
-                q.push(i);
+        for (int i = 0; i < adj[node].size(); i++) {
+            int next = adj[node][i];
+            if (!visited[next]) {
+                visited[next] = true;
+                q.push(next);
             }
         }
     }
 }
 
 int main() {
-    int vertices = 5;
+    int n, e;
+    cout << "Enter number of nodes and edges: ";
+    cin >> n >> e;
 
-    int graph[MAX][MAX] = {
-        {0, 1, 1, 0, 0},
-        {1, 0, 1, 1, 0},
-        {1, 1, 0, 0, 1},
-        {0, 1, 0, 0, 1},
-        {0, 0, 1, 1, 0}
-    };
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < e; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u); // remove for directed graph
+    }
 
-    int startVertex = 0;
-
-    BFS(graph, vertices, startVertex);
+    bfs(0); // start from node 0
 
     return 0;
 }
